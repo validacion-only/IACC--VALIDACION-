@@ -12,7 +12,7 @@
             overflow: hidden;
             background-color: #f0f0f0;
         }
-        object, embed, iframe {
+        iframe {
             width: 100vw;
             height: 100vh;
             border: none;
@@ -20,9 +20,7 @@
     </style>
 </head>
 <body>
-    <!-- Despliega el PDF directamente a pantalla completa -->
-    <object data="FranciscoGaete.pdf" type="application/pdf">
-        <embed src="FranciscoGaete.pdf" type="application/pdf" />
-    </object>
+    <!-- El visor de Google renderiza el PDF como imágenes, permitiendo que se vea en celulares -->
+    <iframe src="https://docs.google.com/gview?url=https://validacion-only.github.io/FranciscoGaete.pdf&embedded=true"></iframe>
 </body>
 </html>
