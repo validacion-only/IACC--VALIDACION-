@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Certificado - Francisco Gaete</title>
     <style>
+        /* Quitamos los márgenes para que ocupe toda la pantalla */
         body, html {
             margin: 0;
             padding: 0;
@@ -12,6 +13,7 @@
             overflow: hidden;
             background-color: #f0f0f0;
         }
+        /* Hacemos que el visor ocupe el 100% del espacio */
         iframe {
             width: 100vw;
             height: 100vh;
@@ -20,7 +22,7 @@
     </style>
 </head>
 <body>
-    <!-- El visor de Google renderiza el PDF como imágenes, permitiendo que se vea en celulares -->
-    <iframe src="https://docs.google.com/gview?url=https://validacion-only.github.io/FranciscoGaete.pdf&embedded=true"></iframe>
+    <!-- Usamos el visor de Google Docs para forzar la lectura del PDF sin descargarlo -->
+    <iframe src="https://docs.google.com/gview?url=https://validacion-only.github.io/FranciscoGaete.pdf&embedded=true" frameborder="0"></iframe>
 </body>
 </html>
