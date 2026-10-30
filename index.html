@@ -5,24 +5,70 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Certificado - Francisco Gaete</title>
     <style>
-        /* Quitamos los márgenes para que ocupe toda la pantalla */
         body, html {
             margin: 0;
             padding: 0;
             height: 100vh;
             overflow: hidden;
-            background-color: #f0f0f0;
+            background-color: #525659;
+            display: flex;
+            justify-content: center;
         }
-        /* Hacemos que el visor ocupe el 100% del espacio */
-        iframe {
-            width: 100vw;
+        /* El canvas donde se dibujará el PDF */
+        #pdf-render {
             height: 100vh;
-            border: none;
+            width: auto;
+            max-width: 100vw;
         }
     </style>
 </head>
 <body>
-    <!-- Usamos el visor de Google Docs para forzar la lectura del PDF sin descargarlo -->
-    <iframe src="https://docs.google.com/gview?url=https://validacion-only.github.io/FranciscoGaete.pdf&embedded=true" frameborder="0"></iframe>
+
+    <canvas id="pdf-render"></canvas>
+
+    <!-- Cargamos la librería PDF.js desde un CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
+    
+    <script>
+        // Configuramos el worker de PDF.js
+        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.min.js';
+
+        // Ruta de tu archivo PDF (asegúrate de que el nombre sea exacto)
+        const url = 'FranciscoGaete.pdf';
+
+        // Variables para renderizar
+        let pdfDoc = null,
+            pageNum = 1,
+            scale = 1.5,
+            canvas = document.getElementById('pdf-render'),
+            ctx = canvas.getContext('2d');
+
+        // Función para renderizar la página
+        const renderPage = num => {
+            pdfDoc.getPage(num).then(page => {
+                // Ajustar la escala según el tamaño de la pantalla
+                const viewport = page.getViewport({ scale: scale });
+                canvas.height = viewport.height;
+                canvas.width = viewport.width;
+
+                const renderCtx = {
+                    canvasContext: ctx,
+                    viewport: viewport
+                };
+
+                page.render(renderCtx);
+            });
+        };
+
+        // Cargar el documento PDF
+        pdfjsLib.getDocument(url).promise.then(pdfDoc_ => {
+            pdfDoc = pdfDoc_;
+            renderPage(pageNum);
+        }).catch(err => {
+            console.error('Error al cargar el PDF:', err);
+            // Mensaje de error visible si falla la carga
+            document.body.innerHTML = '<p style="color:white; text-align:center; margin-top:20px;">Error al cargar el documento.</p>';
+        });
+    </script>
 </body>
 </html>
